@@ -25,5 +25,4 @@ def ai_endpoint(message):
         print("error")
 
 message = input("how can i assist you?: ")
-
 print(ai_endpoint(message))
