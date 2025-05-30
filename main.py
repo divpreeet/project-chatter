@@ -1,5 +1,6 @@
 from  ai_backend import ai_endpoint 
 from voice_recognition import recognize_speech
+from tts import speak
 
 # TODO - make this customizable..
 WAKE_WORDS = ["chatter", "charter", "chadar", "chadda"]
@@ -34,5 +35,6 @@ def main():
         response = ai_endpoint(cmd)
         if response:
             print(response)
+            speak(response)
      
 main()
