@@ -2,7 +2,8 @@ from  ai_backend import ai_endpoint
 from voice_recognition import recognize_speech
 
 # TODO - make this customizable..
-WAKE_WORD = "mark"
+WAKE_WORDS = ["chatter", "charter", "chadar", "chadda"]
+END_WORDS = ["bye", "goodbye", "exit", "quit"]
 
 def main():
     print("Waiting for wake word")
@@ -12,19 +13,26 @@ def main():
         if not speech:
             continue
 
-        if WAKE_WORD in speech.lower():
+        lower_speech = speech.lower()
+     
+        # i love b001 
+        wake = next((w for w in WAKE_WORDS if w in lower_speech), None)
+        if not wake:
+            continue
+
+        cmd = lower_speech.split(wake, 1)[1].strip()
+        if not cmd:
             print("Yes?")
-            message = recognize_speech()
-            if not message:
+            cmd = recognize_speech()
+            if not cmd:
                 continue
 
-            if any(bye in message.lower() for bye in ["bye", "goodbye", "exit", "quit"]):
-                print("Goodbye.")
-                break
-        
-            response = ai_endpoint(message)
-            if response:
-                print(f"Chatter: {response}")
-            print("listening for wake word")
+        if any(end in cmd for end in END_WORDS):
+            print("Goodbye")
+            return
 
+        response = ai_endpoint(cmd)
+        if response:
+            print(response)
+     
 main()
