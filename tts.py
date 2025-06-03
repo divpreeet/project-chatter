@@ -33,5 +33,8 @@ def speak(text):
     if not all_audio:
         return
     full_wave = p.concatenate(all_audio, axis=0)
+    max_val = p.max(p.abs(full_wave))
+    if max_val > 0:
+        full_wave = full_wave / max_val
     sd.play(full_wave, samplerate=sample_rate)
     sd.wait()
