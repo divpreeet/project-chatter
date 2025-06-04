@@ -1,9 +1,9 @@
-from  ai_backend import ai_endpoint 
+from ai_backend import ai_endpoint 
 from voice_recognition import recognize_speech
 from tts import speak
 import queue
 
-# TODO - make this customizable..
+# TODO - cusomize
 WAKE_WORDS = ["chatter", "charter", "chadar", "chadda"]
 END_WORDS = ["bye", "goodbye", "exit", "quit"]
 
@@ -16,14 +16,14 @@ def main(ui_queue):
             ui_queue.put({"state": "idle"})
             continue
 
-
         lower_speech = speech.lower()
-     
-        
+
         wake = next((w for w in WAKE_WORDS if w in lower_speech), None)
         if not wake:
+            ui_queue.put({"state": "idle"})
             continue
 
+        ui_queue.put({"state": "listening"})
         cmd = lower_speech.split(wake, 1)[1].strip()
         if not cmd:
             ui_queue.put({"state": "listening"})
@@ -35,8 +35,7 @@ def main(ui_queue):
         if any(end in cmd for end in END_WORDS):
             ui_queue.put({"state": "idle"})
             print("Goodbye")
-            ending = "Goodbye"
-            speak(ending)
+            speak("Goodbye")
             return
 
         response = ai_endpoint(cmd)
@@ -45,5 +44,3 @@ def main(ui_queue):
             print(response)
             speak(response)
             ui_queue.put({"state": "idle"})
-            
-     

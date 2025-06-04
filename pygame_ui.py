@@ -42,6 +42,7 @@ class Eyes(pygame.sprite.Sprite):
             pygame.draw.rect(surface, self.color, self.rect, border_radius=18)
 
         elif self.state == "idle":
+            pygame.draw.rect(surface, BG_COLOR, self.rect, border_radius=18)
             y = self.rect.centery
             x1 = self.rect.left + 40
             x2 = self.rect.right - 40
