@@ -13,17 +13,18 @@ def main(ui_queue):
         speech = recognize_speech()
 
         if not speech:
-            ui_queue.put({"state": "idle"})
+            ui_queue.put({"state": "idle", "text": ""})
             continue
 
         lower_speech = speech.lower()
 
         wake = next((w for w in WAKE_WORDS if w in lower_speech), None)
         if not wake:
-            ui_queue.put({"state": "idle"})
+            ui_queue.put({"state": "idle", "text": ""})
             continue
 
-        ui_queue.put({"state": "listening"})
+
+        ui_queue.put({"state": "listening", "text": f'"{speech}"'})
         cmd = lower_speech.split(wake, 1)[1].strip()
         if not cmd:
             ui_queue.put({"state": "listening"})
@@ -38,9 +39,13 @@ def main(ui_queue):
             speak("Goodbye")
             return
 
+
+
         response = ai_endpoint(cmd)
+
         if response:
             ui_queue.put({"state": "listening"})
             print(response)
+            ui_queue.put({"state": "thinking"})
             speak(response)
             ui_queue.put({"state": "idle"})
