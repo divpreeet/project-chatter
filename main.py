@@ -37,9 +37,7 @@ def main(ui_queue):
             ui_queue.put({"state": "idle"})
             print("Goodbye")
             speak("Goodbye")
-            return
-
-
+            
 
         response = ai_endpoint(cmd)
 

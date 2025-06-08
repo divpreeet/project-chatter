@@ -14,6 +14,7 @@ FPS = 60
 EYE_COLOR = (217, 217, 217)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Chatter")
 clock = pygame.time.Clock()
 
 
