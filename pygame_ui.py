@@ -6,18 +6,14 @@ from main import main as m
 import math
 
 pygame.init()
-
-WIDTH = 1280
-HEIGHT = 720
+WIDTH, HEIGHT = 1280, 720
 BG_COLOR = (23, 23, 23)
-FPS = 60
 EYE_COLOR = (217, 217, 217)
+FPS = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chatter")
 clock = pygame.time.Clock()
-
-
 font = pygame.font.Font('Inter.ttf', 28)
 caption_text = ""
 
@@ -29,104 +25,97 @@ class Eyes(pygame.sprite.Sprite):
         self.state = "idle"
 
     def draw(self, surface):
-        if self.state == "thinking":
-            t = pygame.time.get_ticks() / 500
-            pulse = 0.8 + 0.2 * math.sin(t * math.pi)
-            pulse_color = tuple(
-                min(255, int(c * pulse + 255 * (1 - pulse))) for c in self.color
+        blur_radius = 16
+        shadow_offset = (0, 10)
+        shadow_color = (0, 0, 0)
+        if self.state in ("thinking", "listening", "speaking"):
+            if self.state == "thinking":
+                t = pygame.time.get_ticks() / 500
+                pulse = 0.8 + 0.2 * math.sin(t * math.pi)
+                pulse_color = tuple(
+                    min(255, int(c * pulse + 255 * (1 - pulse))) for c in self.color
+                )
+            else:
+                pulse_color = self.color
+            shadow_surf = pygame.Surface(
+                (self.rect.width + blur_radius * 2, self.rect.height + blur_radius * 2),
+                pygame.SRCALPHA
             )
-
-            blur_radius = 16
-
-            shadow_offset = (0, 10)
-            shadow_color = (0, 0, 0)
-
-            shadow_surf = pygame.Surface((self.rect.width + blur_radius * 2, self.rect.height + blur_radius * 2), pygame.SRCALPHA)
             shadow_rect = pygame.Rect(blur_radius, blur_radius, self.rect.width, self.rect.height)
-
             pygame.draw.rect(shadow_surf, shadow_color + (180,), shadow_rect, border_radius=18)
-
-            shadow_surf = pygame.transform.smoothscale(shadow_surf, (self.rect.width // 2, self.rect.height // 2))
-            shadow_surf = pygame.transform.smoothscale(shadow_surf, (self.rect.width + blur_radius * 2, self.rect.height + blur_radius * 2))
-            surface.blit(shadow_surf, (self.rect.x - blur_radius + shadow_offset[0], self.rect.y - blur_radius + shadow_offset[1]))
-
+            shadow_surf = pygame.transform.smoothscale(
+                shadow_surf,
+                (self.rect.width // 2, self.rect.height // 2)
+            )
+            shadow_surf = pygame.transform.smoothscale(
+                shadow_surf,
+                (self.rect.width + blur_radius * 2, self.rect.height + blur_radius * 2)
+            )
+            surface.blit(
+                shadow_surf,
+                (self.rect.x - blur_radius + shadow_offset[0], self.rect.y - blur_radius + shadow_offset[1])
+            )
             pygame.draw.rect(surface, pulse_color, self.rect, border_radius=18)
-
-        if self.state == "listening":
-            blur_radius = 16
-            
-            shadow_offset = (0, 10)
-            shadow_color = (0, 0, 0)
-            
-            shadow_surf = pygame.Surface((self.rect.width + blur_radius * 2, self.rect.height + blur_radius * 2), pygame.SRCALPHA)
-            shadow_rect = pygame.Rect(blur_radius, blur_radius, self.rect.width, self.rect.height)
-        
-            pygame.draw.rect(shadow_surf, shadow_color + (180,), shadow_rect, border_radius=18)
-        
-            shadow_surf = pygame.transform.smoothscale(shadow_surf, (self.rect.width // 2, self.rect.height // 2))
-            shadow_surf = pygame.transform.smoothscale(shadow_surf, (self.rect.width + blur_radius * 2, self.rect.height + blur_radius * 2))
-        
-            surface.blit(shadow_surf, (self.rect.x - blur_radius + shadow_offset[0], self.rect.y - blur_radius + shadow_offset[1]))
-        
-            pygame.draw.rect(surface, self.color, self.rect, border_radius=18)
-
-        elif self.state == "idle":
+        else:
             pygame.draw.rect(surface, BG_COLOR, self.rect, border_radius=18)
             y = self.rect.centery
             x1 = self.rect.left + 40
             x2 = self.rect.right - 40
             pygame.draw.line(surface, self.color, (x1, y), (x2, y), 6)
 
-def write_text(surface, text, font, color, y_position):
-    if text:
-        text_surface = font.render(text, True, color)
-        text_rect = text_surface.get_rect(center=(WIDTH // 2, y_position))
-        surface.blit(text_surface, text_rect)
+def wrap_text(text, font, max_width):
+    words = text.split(' ')
+    lines = []
+    current = ""
+    for w in words:
+        test = current + w + " "
+        if font.size(test)[0] <= max_width:
+            current = test
+        else:
+            lines.append(current.rstrip())
+            current = w + " "
+    if current:
+        lines.append(current.rstrip())
+    return lines
 
+def write_text(surface, text, font, color, y_pos, max_width=1000, line_spacing=5):
+    if not text:
+        return
+    lines = wrap_text(text, font, max_width)
+    total_h = len(lines) * (font.get_height() + line_spacing)
+    y = y_pos - total_h // 2
+    for line in lines:
+        surf = font.render(line, True, color)
+        rect = surf.get_rect(center=(surface.get_width()//2, y + font.get_height()//2))
+        surface.blit(surf, rect)
+        y += font.get_height() + line_spacing
 
-# eye group
 eye1 = Eyes((168, 237, 352, 247), EYE_COLOR)
 eye2 = Eyes((760, 237, 352, 247), EYE_COLOR)
-eyes_group = pygame.sprite.Group()
-eyes_group.add(eye1, eye2)
+eyes = pygame.sprite.Group(eye1, eye2)
 
-# setup states
 ui_queue = queue.Queue()
-ai_thread = threading.Thread(target=m, args=(ui_queue,), daemon=True)
-ai_thread.start()
-
-for i in eyes_group:
-    i.state = "idle"
+threading.Thread(target=m, args=(ui_queue,), daemon=True).start()
 
 running = True
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for ev in pygame.event.get():
+        if ev.type == pygame.QUIT:
             running = False
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_SPACE:
-        #         new_state = "listening" if i.state == "idle" else "idle"
-        #         for i in eyes_group:
-        #             i.state = new_state
-
-        try:
-            while True:
-                msg = ui_queue.get_nowait()
-                if "state" in msg:
-                    for i in eyes_group:
-                        i.state = msg["state"]
-                if "text" in msg:
-                    caption_text = msg["text"]
-        except queue.Empty:
-            pass
-
+    try:
+        while True:
+            msg = ui_queue.get_nowait()
+            if "state" in msg:
+                for e in eyes:
+                    e.state = msg["state"]
+            if "text" in msg:
+                caption_text = msg["text"]
+    except queue.Empty:
+        pass
     screen.fill(BG_COLOR)
-
-    write_text(screen, caption_text, font, EYE_COLOR, 125)
-
-    for i in eyes_group:
-        i.draw(screen)
-
+    write_text(screen, caption_text, font, EYE_COLOR, 125, max_width=WIDTH - 100)
+    for e in eyes:
+        e.draw(screen)
     pygame.display.flip()
     clock.tick(FPS)
 
