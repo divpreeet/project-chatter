@@ -25,7 +25,9 @@ git clone https://github.com/divpreeet/project-chatter.git
 cd project-chatter
 ```
 ### Create a python venv (recommended)
+```
 python3 -m venv venv
+```
 
 #### On Windows 
 ```
