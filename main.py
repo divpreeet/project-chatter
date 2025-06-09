@@ -1,11 +1,8 @@
 from ai_backend import ai_endpoint 
 from voice_recognition import recognize_speech
 from tts import speak
-import queue
-import threading
 import time
 
-speaking_flag = threading.Event()
 WAKE_WORDS = ["chatter", "charter", "chadar", "chadda"]
 END_WORDS = ["bye", "goodbye", "exit", "quit"]
 
@@ -13,11 +10,7 @@ END_WORDS = ["bye", "goodbye", "exit", "quit"]
 def main(ui_queue):
     print("Waiting for wake word")
     while True:
-        if not speaking_flag.is_set():
-            speech = recognize_speech()
-        else:
-            continue
-
+        speech = recognize_speech()
         if not speech:
             ui_queue.put({"state": "idle", "text": ""})
             continue
@@ -53,14 +46,11 @@ def main(ui_queue):
         # time.sleep(0.05)
 
         response = ai_endpoint(cmd)
+        if not response: 
+            continue
 
         ui_queue.put({"state": "speaking", "text": response})
-        def _speak_and_reset(response):
-            #time.sleep(0.05)
-            speaking_flag.set()
-            print(response)
-            speak(response)
-            speaking_flag.clear()
-            ui_queue.put({"state": "idle", "text": ""})
+        speak(response)
+        ui_queue.put({"state": "idle", "text": ""})
+
         
-        threading.Thread(target=_speak_and_reset, args=(response,), daemon=True).start()

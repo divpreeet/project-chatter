@@ -1,52 +1,57 @@
 from piper import PiperVoice
 import sounddevice as sd
 import numpy as p
-import re
-import tempfile
 import wave
+import io
+import threading
+import queue
 
 VOICE = "models/UK/en_GB-northern_english_male-medium.onnx"
 CONFIG = "models/UK/en_GB-northern_english_male-medium.onnx.json"
 PAUSE = 0.15
 
 voice = PiperVoice.load(VOICE, CONFIG)
+sample_rate = voice.config.sample_rate
+
+tts_queue = queue.Queue()
 
 
-def wave_to_p(wav_path):
-    with wave.open(wav_path, 'rb') as wf:
+def wave_to_p(buffer):
+    buffer.seek(0)
+    with wave.open(buffer, 'rb') as wf:
         frames = wf.readframes(wf.getnframes())
         dtype = p.int16 if wf.getsampwidth() == 2 else p.int32
-        audio = p.frombuffer(frames, dtype=dtype).astype(p.float32) / p.iinfo(dtype).max
-        return audio, wf.getframerate()
+        audio = p.frombuffer(frames, dtype=dtype).astype(p.float32)
+        audio /=  p.iinfo(dtype).max
+        return audio
+
+def _worker():
+    while True:
+        text = tts_queue.get()
+        if text is None:
+            break
+
+        buf = io.BytesIO()
+        with wave.open(buf, "wb") as wf:
+            wf.setnchannels(1)
+            wf.setsampwidth(2)
+            wf.setframerate(sample_rate)
+            voice.synthesize(text,wf)
+
+        audio = wave_to_p(buf)
+
+        mx = p.max(p.abs(audio))
+        if mx > 0:
+            audio /= mx
+
+        sd.play(audio, samplerate=sample_rate)
+        sd.wait()
+
+        tts_queue.task_done()
+
+# start the thread and hope it works
+threading.Thread(target=_worker, daemon=True).start()
 
 def speak(text):
-    sample_rate = voice.config.sample_rate
-    pause_samples = p.zeros(int(PAUSE * sample_rate), dtype=p.float32)
-    parts = re.split(r'([.,?!])', text)
-    all_audio = []
-    i = 0
-    while i < len(parts):
-        segment = parts[i]
-        if i + 1 < len(parts) and parts[i+1] in ".,?!":
-            segment += parts[i+1]
-        segment = segment.strip()
-        if segment:
-            with tempfile.NamedTemporaryFile(suffix=".wav") as tmp_wav:
-                with wave.open(tmp_wav.name, 'wb') as wav_file:
-                    wav_file.setnchannels(1)
-                    wav_file.setsampwidth(2)
-                    wav_file.setframerate(voice.config.sample_rate)
-                    voice.synthesize(segment, wav_file)
-
-                audio, sr = wave_to_p(tmp_wav.name)
-                all_audio.append(audio)
-                all_audio.append(pause_samples)
-        i += 2
-    if not all_audio:
-        return
-    full_wave = p.concatenate(all_audio, axis=0)
-    max_val = p.max(p.abs(full_wave))
-    if max_val > 0:
-        full_wave = full_wave / max_val
-    sd.play(full_wave, samplerate=sample_rate)
-    sd.wait()
+    tts_queue.put(text)
+    tts_queue.join()
