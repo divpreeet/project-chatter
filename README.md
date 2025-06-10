@@ -61,6 +61,7 @@ sudo apt-get install portaudio19-dev python3-pyaudio
 ### Run!
 just run chatter using
 ```
+cd main
 python3 main.py
 ```
 > if your using macOS run from the default terminal and allow Microphone Privelleges!
