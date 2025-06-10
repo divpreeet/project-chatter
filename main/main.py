@@ -40,6 +40,7 @@ def main(ui_queue):
             time.sleep(0.05)
             print("Goodbye")
             speak("Goodbye")
+            ui_queue.put({"state": "goodbye", "text": "Goodbye"})
             break
 
         ui_queue.put({"state": "thinking", "text": ""})

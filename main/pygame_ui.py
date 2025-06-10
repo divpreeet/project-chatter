@@ -151,6 +151,9 @@ while running:
         while True:
             msg = ui_queue.get_nowait()
             if "state" in msg:
+                if msg["state"] == "goodbye":
+                    running = False
+                    break
                 for e in eyes:
                     e.state = msg["state"]
             if "text" in msg:
