@@ -1,5 +1,5 @@
 # chatter - your personal AI voice assistant
-> aka project-chatter, a project for [shipwrecked](https://shipwrecked.hackclub.com) by hackclub!
+> aka project-chatter!
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Version](https://img.shields.io/badge/version-0.1.1-brightgreen.svg)
@@ -14,7 +14,7 @@ for the main stuff:
 
 ## what is chatter?
 ![chatter_screenshot](assets/speaking.png)
-chatter is AI voice assistant made purely in python, from the UI, to the voice recognition, all made in python! chatter uses the [hackclub ai](https://ai.hackclub.com/) for responses!
+chatter is AI voice assistant made purely in python, from the UI, to the voice recognition, all made in python! chatter uses the [hackclub ai](https://ai.hackclub.com/) for responses! chatter uses local models for the tts and speech!
 
 
 ## how to install chatter?
