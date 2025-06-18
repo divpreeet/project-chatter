@@ -192,7 +192,7 @@ END_WORDS = ["quiet", "shut up"]
 - Ensure your microphone is connected and set as the default input device.
 - If you encounter errors related to audio or microphone access, make sure PortAudio is installed and all Python dependencies are satisfied.
 - also sometimes chatter might not hear you, due to ambient noise or your microphone!
-- also make sure you first `cd main` or the equiviliant for windows before running `chatter.py`
+- also make sure you first `cd main` or the equivalent for windows before running `chatter.py`
 
 ## privacy
 chatter doesnt store any data, not from your voice or computer, it simply just puts together multiple python libraries and has a nice UI, no shady stuff under the hood!
