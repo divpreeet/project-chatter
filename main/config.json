@@ -1,0 +1,12 @@
+{
+  "theme": "frappe",
+  "bg_color": [35, 38, 52],
+  "eye_color": [115, 121, 148],
+  "tip_color": [165, 173, 203],
+  "fonts": {
+    "caption": "Inter.ttf",
+    "caption_size": 28,
+    "tip_size": 18
+  },
+  "tip_interval": 20
+}

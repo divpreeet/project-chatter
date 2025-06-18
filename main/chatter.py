@@ -1,4 +1,6 @@
 import sys
+import os
+import json
 import pygame
 import threading
 import queue
@@ -6,17 +8,54 @@ from main import main as m
 import math
 import time
 
+# adding customization w config
+
+DEFAULT_CONF = {
+    "bg_color": [23, 23, 23],
+    "eye_color": [217, 217, 217],
+    "tip_color": [180, 180, 180],
+    "fonts": {
+        "caption": "Inter.ttf",
+        "caption_size": 28,
+        "tip_size": 18
+    },
+    "tip_interval": 20
+}
+
+config_path = os.path.join(os.path.dirname(__file__), "config.json")
+if os.path.exists(config_path):
+    try:
+        with open(config_path, "r") as file:
+            user_conf = json.load(file)
+    except json.JSONDecodeError:
+        print("config is not properly formed, using default config")
+        user_conf = {}
+else:
+    user_conf = {}
+
+def merge(dflt, user):
+    for key, val in user.items():
+        if isinstance(val, dict) and key in dflt:
+            merge(dflt[key], val)
+        else:
+            dflt[key] = val
+
+merge(DEFAULT_CONF, user_conf)
+cfg = DEFAULT_CONF
+
+BG_COLOR  = tuple(cfg["bg_color"])
+EYE_COLOR = tuple(cfg["eye_color"])
+TIP_COLOR = tuple(cfg["tip_color"])
+TIP_INTERVAL = cfg["tip_interval"]
+
 pygame.init()
 WIDTH, HEIGHT = 1280, 720
-BG_COLOR = (23, 23, 23)
-EYE_COLOR = (217, 217, 217)
-TIP_COLOR = (180, 180, 180)
 FPS = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Chatter")
 clock = pygame.time.Clock()
-font = pygame.font.Font('Inter.ttf', 28)
+font = pygame.font.Font(cfg["fonts"]["caption"], cfg["fonts"]["caption_size"])
 caption_text = ""
 
 tips = [
@@ -27,7 +66,7 @@ tips = [
     'say "chatter, what can you do?" to learn more',
     'read the docs for more info!'
 ]
-tip_font = pygame.font.Font('Inter.ttf', 18)
+tip_font = pygame.font.Font(cfg["fonts"]["caption"], cfg["fonts"]["tip_size"])
 current_tip = 0
 last_tip = time.time()
 tip_change = 20
