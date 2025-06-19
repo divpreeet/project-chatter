@@ -1,8 +1,8 @@
 {
-  "theme": "frappe",
-  "bg_color": [35, 38, 52],
-  "eye_color": [115, 121, 148],
-  "tip_color": [165, 173, 203],
+  "theme": "default",
+  "bg_color": [23, 23, 23],
+  "eye_color": [217, 217, 217],
+  "tip_color": [180, 180, 180],
   "fonts": {
     "caption": "Inter.ttf",
     "caption_size": 28,
