@@ -28,6 +28,7 @@ i plan on releasing a standalone app for chatter for macos, windows and linux! b
 - pip
 - A working microphone (set as default for now)
 - An internet connection
+- on a unix based system (linux or macOS, doesnt work on Windows)
 
 ### Installation
 ```
@@ -39,10 +40,6 @@ cd project-chatter
 python3 -m venv venv
 ```
 
-#### On Windows 
-```
-venv\Scripts\Activate
-```
 #### On macOS or Linux
 ```
 source venv/bin/activate
@@ -53,9 +50,6 @@ then install deps using
 pip install -r requirements.txt
 ```
 ### Install other deps (according to OS)
-
-#### Windows
-no extra steps! you're good to go!
 
 #### macOS
 install portaudio
