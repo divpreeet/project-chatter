@@ -19,56 +19,71 @@ chatter is AI voice assistant made purely in python, from the UI, to the voice r
 
 
 ## how to install chatter?
-i plan on releasing a standalone app for chatter for macos, windows and linux! but thats still a WIP, until you can run chatter from source!
+i plan on releasing a standalone app for chatter for macos, windows and linux! but thats still a WIP, until then you can run chatter from source!
 
 
 ## how to install chatter from source
-### Requirements
-- Python 3.9 or newer
-- pip
-- A working microphone (set as default for now)
-- An internet connection
-- on a unix based system (linux or macOS, doesnt work on Windows)
+### install `uv` 
+> **Note:** project-chatter currently doesnt work on windows, due to ```piper-phoenimze``` packages not supporting it.
 
-### Installation
+
+#### linux (all distros) & macOS
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
+
+### install Python 3.12 using `uv`
+```sh
+uv python install 3.12
+```
+this downloads and manages Python 3.12 locally for your projects.
+
+### clone the repository
+```sh
 git clone https://github.com/divpreeet/project-chatter.git
 cd project-chatter
 ```
-### Create a python venv (recommended)
-```
-python3 -m venv venv
+
+### create a virtual environment with Python 3.12
+```sh
+uv venv --python 3.12
+source .venv/bin/activate
 ```
 
-#### On macOS or Linux
-```
-source venv/bin/activate
+### install system dependencies
+
+#### Ubuntu/Debian
+```sh
+sudo apt update
+sudo apt install -y build-essential portaudio19-dev libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev python3-dev
 ```
 
-then install deps using
-```
-pip install -r requirements.txt
-```
-### Install other deps (according to OS)
-
-#### macOS
-install portaudio
-```
-brew install portaudio
-```
-#### Linux
-install portaudio dev headers and pyaudio
-```
-sudo apt-get install portaudio19-dev python3-pyaudio
+#### Fedora
+```sh
+sudo dnf install -y gcc python3-devel portaudio-devel SDL2-devel SDL2_image-devel SDL2_mixer-devel SDL2_ttf-devel freetype-devel libffi-devel libsndfile-devel
 ```
 
-### Run!
-just run chatter using
+#### Arch Linux
+```sh
+sudo pacman -Syu --needed python portaudio sdl2 sdl2_image sdl2_mixer sdl2_ttf freetype2 libffi libsndfile
 ```
-cd main
-python3 chatter.py
+
+### install Python dependencies
+```sh
+uv pip install -r requirements.txt
 ```
-> if your using macOS run from the default terminal and allow Microphone Privelleges!
+
+### run Chatter!
+```sh
+python main/chatter.py
+```
+
+#### note:
+- On macOS, run from the default Terminal and allow Microphone access when prompted.
+- On Linux, if you have audio permission issues, ensure your user is in the `audio` group.
+- If you see errors about `piper-phonemize`, make sure your `requirements.txt` uses `piper-phonemize-cross` as described in troubleshooting.
+
+---
 
 
 ## usage
@@ -187,6 +202,9 @@ END_WORDS = ["quiet", "shut up"]
 - If you encounter errors related to audio or microphone access, make sure PortAudio is installed and all Python dependencies are satisfied.
 - also sometimes chatter might not hear you, due to ambient noise or your microphone!
 - also make sure you first `cd main` or the equivalent for windows before running `chatter.py`
+- double-check you installed all system dependencies for your OS.
+- use the recommended Python version (3.12), and use `uv` for faster, more reliable installs.
+- still have an issue? copy the error and open an issue.
 
 ## privacy
 chatter doesnt store any data, not from your voice or computer, it simply just puts together multiple python libraries and has a nice UI, no shady stuff under the hood!
