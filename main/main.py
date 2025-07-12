@@ -1,6 +1,6 @@
-from ai_backend import ai_endpoint 
-from voice_recognition import recognize_speech
-from tts import speak
+from .ai_backend import ai_endpoint
+from .tts import speak
+from .voice_recognition import recognize_speech
 import time
 
 WAKE_WORDS = ["chatter", "charter", "chadar", "chadda"]

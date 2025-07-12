@@ -1,0 +1,7 @@
+include README.md
+include LICENSE*
+include requirements.txt
+recursive-include main *.json
+recursive-include main *.ttf
+recursive-include main/models *.onnx *.json
+recursive-include assets *

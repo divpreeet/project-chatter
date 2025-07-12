@@ -7,7 +7,7 @@
 ## table of contents
 for the main stuff:
 
-- [how to install chatter](#how-to-install-chatter-from-source)
+- [how to install chatter](#how-to-install-chatter)
 - [troubleshooting errors](#troubleshooting)
 - [usage](#usage)
 - [customization](#customization)
@@ -19,12 +19,31 @@ chatter is AI voice assistant made purely in python, from the UI, to the voice r
 
 
 ## how to install chatter?
-i plan on releasing a standalone app for chatter for macos, windows and linux! but thats still a WIP, until then you can run chatter from source!
+i plan on releasing a standalone app for chatter for macos and linux! but thats still a WIP, until then you can run chatter from source!
 
+
+## install chatter from pypi - reccomended
+> [!NOTE]
+> Chatter doesnt work on windows, due to ```piper``` packages not supporting it. this only works for macOS and linux
+
+just run
+```sh
+pip install project-chatter
+```
+and if you're on linux also make sure to run
+```sh
+pip install "project-chatter[voice]"
+```
+after that to start it just run
+```sh
+chatter-start
+```
+also make sure to enable **microphone privelleges** for the terminal you run it in.
 
 ## how to install chatter from source
 ### install `uv` 
-> **Note:** project-chatter currently doesnt work on windows, due to ```piper-phoenimze``` packages not supporting it.
+> [!NOTE]
+> again, project-chatter currently doesnt work on windows, due to ```piper-phoenimze``` packages not supporting it.
 
 
 #### linux (all distros) & macOS

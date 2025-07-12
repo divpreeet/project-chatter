@@ -1,5 +1,5 @@
 import requests
-from voice_recognition import recognize_speech
+from .voice_recognition import recognize_speech
 
 URL = "https://ai.hackclub.com/chat/completions"
 

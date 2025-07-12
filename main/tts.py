@@ -5,9 +5,13 @@ import wave
 import io
 import threading
 import queue
+import importlib.resources
+import pathlib
 
-VOICE = "models/UK/en_GB-northern_english_male-medium.onnx"
-CONFIG = "models/UK/en_GB-northern_english_male-medium.onnx.json"
+package_models_dir = importlib.resources.files('main').joinpath('models/UK')
+
+VOICE = str(package_models_dir / 'en_GB-northern_english_male-medium.onnx')
+CONFIG = str(package_models_dir / 'en_GB-northern_english_male-medium.onnx.json')
 PAUSE = 0.15
 
 voice = PiperVoice.load(VOICE, CONFIG)
