@@ -30,7 +30,7 @@ just run
 ```sh
 pip install project-chatter
 ```
-and if you're on linux also make sure to run
+and after that also make sure to run
 ```sh
 pip install "project-chatter[voice]"
 ```
