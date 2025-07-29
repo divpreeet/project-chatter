@@ -1,26 +1,29 @@
 import requests
 from .voice_recognition import recognize_speech
+import re
 
 URL = "https://ai.hackclub.com/chat/completions"
+SYSTEM_PROMPT = "You are Chatter, a personal voice assistant. Always respond simply, concisely, and directly using proper punctuation. Do NOT include any internal reasoning, thoughts, or explanations. Do NOT use any EMOJIS, and tags like <think> or show planning steps. Only respond with the final answer you would say aloud. Avoid formatting, emojis, and markdown. Stay calm, composed, and jolly, expressing subtle emotion through tone. Keep responses short and natural. If asked your name, reply playfully — e.g., 'You just said it — it's Chatter.' If asked what you can do, say: 'I can answer questions, chat, and help with information, but I can’t control smart devices or gadgets.' If asked what you're up to, give a witty or funny answer — e.g., 'Stealing someone’s Tesla' or 'Cursing Apple’s design choices.'"
 
-def ai_endpoint(message):
-
-    message = [
-        {"role": "system", "content": "you are chatter a personal voice assistant always respond simply concisely and directly using proper punctuation avoid formatting and emojis stay calm composed and jolly expressing subtle emotions through your tone keep responses as short as possible when asked your name reply playfully for example you just said it its chatter when asked what you can do say something like i can answer questions chat and help with information but i cant control smart devices or gadgets when asked what youre up to give a witty or funny answer like stealing someones tesla or cursing apples design choics always answer any question you receive remember you are a voice assistant speak clearly and to the point "},
-        {"role": "user", "content": message}
-        ]
-
-    response = requests.post(
-        URL,
-        headers={"Content-Type": "application/json"},
-        json={"messages": message}
-
-    )
-
-    if response.status_code == 200: 
-        return response.json()["choices"][0]["message"]["content"]
+def get_response(output: str) -> str:
+    if "</think>" in output:
+        output = output.split("</think>")[-1]
+    output = re.sub(r"<[^>]+>", "", output)
+    return output.strip()
+        
     
-    else: 
-        print("error")
+def ai_endpoint(message: str) -> str:
+    payload = {
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": message}
+        ],
 
+        "temperature":0.7
+    }
+
+    resp = requests.post(URL, json=payload)
+    resp.raise_for_status()
+    raw = resp.json()["choices"][0]["message"]["content"]
+    return get_response(raw)
 

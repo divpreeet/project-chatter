@@ -1,0 +1,345 @@
+Metadata-Version: 2.4
+Name: project-chatter
+Version: 0.2.1
+Summary: Chatter — AI Voice Assistant with Pygame UI
+Home-page: https://github.com/divpreeet/project-chatter
+Author: Divpreet Singh
+Author-email: ytbraced@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Multimedia :: Sound/Audio
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: altgraph==0.17.4
+Requires-Dist: annotated-types==0.7.0
+Requires-Dist: anyio==4.9.0
+Requires-Dist: arrow==1.3.0
+Requires-Dist: attmap==0.13.2
+Requires-Dist: attrs==25.3.0
+Requires-Dist: binaryornot==0.4.4
+Requires-Dist: briefcase==0.3.23
+Requires-Dist: build==1.2.2.post1
+Requires-Dist: certifi==2025.4.26
+Requires-Dist: cffi==1.17.1
+Requires-Dist: chardet==5.2.0
+Requires-Dist: charset-normalizer==3.4.2
+Requires-Dist: click==8.2.1
+Requires-Dist: coloredlogs==15.0.1
+Requires-Dist: cookiecutter==2.6.0
+Requires-Dist: dmgbuild==1.6.5
+Requires-Dist: ds-store==1.3.1
+Requires-Dist: eido==0.2.4
+Requires-Dist: flatbuffers==25.2.10
+Requires-Dist: gitdb==4.0.12
+Requires-Dist: GitPython==3.1.44
+Requires-Dist: h11==0.16.0
+Requires-Dist: httpcore==1.0.9
+Requires-Dist: httpx==0.28.1
+Requires-Dist: humanfriendly==10.0
+Requires-Dist: idna==3.10
+Requires-Dist: Jinja2==3.1.6
+Requires-Dist: jsonschema==4.24.0
+Requires-Dist: jsonschema-specifications==2025.4.1
+Requires-Dist: logmuse==0.2.8
+Requires-Dist: mac-alias==2.2.2
+Requires-Dist: macholib==1.16.3
+Requires-Dist: markdown-it-py==3.0.0
+Requires-Dist: MarkupSafe==3.0.2
+Requires-Dist: mdurl==0.1.2
+Requires-Dist: mpmath==1.3.0
+Requires-Dist: numpy==2.3.0
+Requires-Dist: onnxruntime==1.19.2
+Requires-Dist: oyaml==1.0
+Requires-Dist: packaging==25.0
+Requires-Dist: pandas==2.3.0
+Requires-Dist: pephubclient==0.4.5
+Requires-Dist: peppy==0.40.7
+Requires-Dist: piper==0.14.4
+Requires-Dist: pipestat==0.12.1
+Requires-Dist: platformdirs==4.3.8
+Requires-Dist: protobuf==6.31.1
+Requires-Dist: psutil==7.0.0
+Requires-Dist: PyAudio==0.2.14
+Requires-Dist: pycparser==2.22
+Requires-Dist: pydantic==2.11.5
+Requires-Dist: pydantic_core==2.33.2
+Requires-Dist: pygame==2.6.1
+Requires-Dist: Pygments==2.19.1
+Requires-Dist: pyinstaller-hooks-contrib==2025.4
+Requires-Dist: pyproject_hooks==1.2.0
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: python-slugify==8.0.4
+Requires-Dist: pytz==2025.2
+Requires-Dist: PyYAML==6.0.2
+Requires-Dist: referencing==0.36.2
+Requires-Dist: requests==2.32.3
+Requires-Dist: rich==14.0.0
+Requires-Dist: rpds-py==0.25.1
+Requires-Dist: shellingham==1.5.4
+Requires-Dist: six==1.17.0
+Requires-Dist: smmap==5.0.2
+Requires-Dist: sniffio==1.3.1
+Requires-Dist: sounddevice==0.5.2
+Requires-Dist: SpeechRecognition==3.14.3
+Requires-Dist: sympy==1.14.0
+Requires-Dist: text-unidecode==1.3
+Requires-Dist: tomli_w==1.2.0
+Requires-Dist: typer==0.16.0
+Requires-Dist: types-python-dateutil==2.9.0.20250516
+Requires-Dist: typing-inspection==0.4.1
+Requires-Dist: typing_extensions==4.14.0
+Requires-Dist: tzdata==2025.2
+Requires-Dist: ubiquerg==0.8.1
+Requires-Dist: urllib3==2.4.0
+Requires-Dist: yacman==0.9.3
+Provides-Extra: voice
+Requires-Dist: piper-phonemize-cross>=1.2.1; extra == "voice"
+Requires-Dist: piper-tts==1.2.0; extra == "voice"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# chatter - your personal AI voice assistant
+> aka project-chatter!
+
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Version](https://img.shields.io/badge/version-0.1.1-brightgreen.svg)
+
+## table of contents
+for the main stuff:
+
+- [how to install chatter](#how-to-install-chatter)
+- [troubleshooting errors](#troubleshooting)
+- [usage](#usage)
+- [customization](#customization)
+- [privacy](#privacy)
+
+## what is chatter?
+![chatter_screenshot](assets/speaking.png)
+chatter is AI voice assistant made purely in python, from the UI, to the voice recognition, all made in python! chatter uses the [hackclub ai](https://ai.hackclub.com/) for responses! chatter uses local models for the tts and speech!
+
+
+## how to install chatter?
+i plan on releasing a standalone app for chatter for macos and linux! but thats still a WIP, until then you can run chatter from source!
+
+
+## install chatter from pypi - reccomended
+> [!NOTE]
+> Chatter doesnt work on windows, due to ```piper``` packages not supporting it. this only works for macOS and linux
+
+just run
+```sh
+pip install project-chatter
+```
+and after that also make sure to run
+```sh
+pip install "project-chatter[voice]"
+```
+after that to start it just run
+```sh
+chatter-start
+```
+also make sure to enable **microphone privelleges** for the terminal you run it in.
+
+## how to install chatter from source
+### install `uv` 
+> [!NOTE]
+> again, project-chatter currently doesnt work on windows, due to ```piper-phoenimze``` packages not supporting it.
+
+
+#### linux (all distros) & macOS
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### install Python 3.12 using `uv`
+```sh
+uv python install 3.12
+```
+this downloads and manages Python 3.12 locally for your projects.
+
+### clone the repository
+```sh
+git clone https://github.com/divpreeet/project-chatter.git
+cd project-chatter
+```
+
+### create a virtual environment with Python 3.12
+```sh
+uv venv --python 3.12
+source .venv/bin/activate
+```
+
+### install system dependencies
+
+#### Ubuntu/Debian
+```sh
+sudo apt update
+sudo apt install -y build-essential portaudio19-dev libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev python3-dev
+```
+
+#### Fedora
+```sh
+sudo dnf install -y gcc python3-devel portaudio-devel SDL2-devel SDL2_image-devel SDL2_mixer-devel SDL2_ttf-devel freetype-devel libffi-devel libsndfile-devel
+```
+
+#### Arch Linux
+```sh
+sudo pacman -Syu --needed python portaudio sdl2 sdl2_image sdl2_mixer sdl2_ttf freetype2 libffi libsndfile
+```
+
+### install Python dependencies
+```sh
+uv pip install -r requirements.txt
+```
+
+### run Chatter!
+```sh
+python main/chatter.py
+```
+
+#### note:
+- On macOS, run from the default Terminal and allow Microphone access when prompted.
+- On Linux, if you have audio permission issues, ensure your user is in the `audio` group.
+- If you see errors about `piper-phonemize`, make sure your `requirements.txt` uses `piper-phonemize-cross` as described in troubleshooting.
+
+---
+
+
+## usage
+it's simple! just say 'chatter' along your message and chatter would respond!
+extra stuff:
+- you can also just say chatter, without saying your message, that would make chatter say 'Yes?' after which you could continue asking your message
+- saying stuff like 'chatter goodbye' or anything from bye, goodbye, exit, quit, along with 'chatter' simply exits the appication
+- try saying 'chatter what are you up to' for a surprise
+- if your hacky and want ultimate customization, just open up the main.py and adjust the stuff that you'd want! like the wake words, end words and so on! i hope the code is readable 😭
+
+## customization
+you can also customize the look and feel for chatter! 
+
+### looks
+just open the [config file](main/config.json) and mess with it however you want! its in simple rgb colors, and you can change everything you see!
+
+here are some templates! to use them just copy paste the code into the file!
+
+```jsonc
+{
+  "theme": "default",
+  "bg_color": [23, 23, 23],
+  "eye_color": [217, 217, 217],
+  "tip_color": [180, 180, 180],
+  "fonts": {
+    "caption": "Inter.ttf",
+    "caption_size": 28,
+    "tip_size": 18
+  },
+  "tip_interval": 20
+}
+```
+
+```jsonc
+{
+  "theme": "latte",
+  "bg_color": [239, 241, 245],
+  "eye_color": [76, 79, 105],
+  "tip_color": [108, 111, 133],
+  "fonts": {
+    "caption": "Inter.ttf",
+    "caption_size": 28,
+    "tip_size": 18
+  },
+  "tip_interval": 20
+}
+
+```
+
+```jsonc
+{
+  "theme": "frappe",
+  "bg_color": [35, 38, 52],
+  "eye_color": [115, 121, 148],
+  "tip_color": [165, 173, 203],
+  "fonts": {
+    "caption": "Inter.ttf",
+    "caption_size": 28,
+    "tip_size": 18
+  },
+  "tip_interval": 20
+}
+
+```
+
+```jsonc
+{
+  "theme": "macchiato",
+  "bg_color": [36, 39, 58],
+  "eye_color": [110, 115, 141],
+  "tip_color": [184, 192, 224],
+  "fonts": {
+    "caption": "Inter.ttf",
+    "caption_size": 28,
+    "tip_size": 18
+  },
+  "tip_interval": 20
+}
+
+```
+```jsonc
+{
+  "theme": "mocha",  
+  "bg_color": [30, 30, 46],
+  "eye_color": [152, 139, 162],
+  "tip_color": [166, 173, 200],
+  "fonts": {
+    "caption": "Inter.ttf",
+    "caption_size": 28,
+    "tip_size": 18
+  },
+  "tip_interval": 20
+}
+```
+
+these are just some templates, feel free to add on!
+
+### wake + end words
+you can customize the wake and end words too! instead of `chatter` you could make it `bob`, simply open the [main.py](main/main.py) and change the `WAKE_WORDS` and `END_WORDS` to whatever you want
+
+from:
+```python
+WAKE_WORDS = ["chatter", "charter", "chadar", "chadda"]
+END_WORDS = ["bye", "goodbye", "exit", "quit"]
+```
+
+to:
+```python
+WAKE_WORDS = ["bob", "bop"]
+END_WORDS = ["quiet", "shut up"]
+```
+
+
+## troubleshooting
+- Ensure your microphone is connected and set as the default input device.
+- If you encounter errors related to audio or microphone access, make sure PortAudio is installed and all Python dependencies are satisfied.
+- also sometimes chatter might not hear you, due to ambient noise or your microphone!
+- also make sure you first `cd main` or the equivalent for windows before running `chatter.py`
+- double-check you installed all system dependencies for your OS.
+- use the recommended Python version (3.12), and use `uv` for faster, more reliable installs.
+- still have an issue? copy the error and open an issue.
+
+## privacy
+chatter doesnt store any data, not from your voice or computer, it simply just puts together multiple python libraries and has a nice UI, no shady stuff under the hood!
+
+## extra project screenshots
+![goodbye](assets/goodbye.png)
+![yes](assets/yes.png)
+![idle](assets/idle.png)
+![speaking](assets/speaking.png)

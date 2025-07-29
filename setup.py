@@ -12,7 +12,7 @@ install_requires = [
 
 setup(
     name="project-chatter",
-    version="0.1.1",
+    version="0.2.1",
     author="Divpreet Singh",
     author_email="ytbraced@gmail.com",
     description="Chatter — AI Voice Assistant with Pygame UI",

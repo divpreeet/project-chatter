@@ -1,0 +1,2 @@
+[console_scripts]
+chatter-start = main.chatter:main
