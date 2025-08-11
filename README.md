@@ -19,14 +19,19 @@ chatter is AI voice assistant made purely in python, from the UI, to the voice r
 
 
 ## how to install chatter?
-i plan on releasing a standalone app for chatter for macos and linux! but thats still a WIP, until then you can run chatter from source!
+there are 2 ways to install chatter, as a python package, or from source!
 
 
 ## install chatter from pypi - reccomended
 > [!NOTE]
 > Chatter doesnt work on windows, due to ```piper``` packages not supporting it. this only works for macOS and linux
 
-just run
+make sure you have **onxruntime** installed -
+```sh
+pip install onnxruntime
+```
+
+after thats installed, you can go ahead and install project-chatter!
 ```sh
 pip install project-chatter
 ```
